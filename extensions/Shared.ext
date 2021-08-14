@@ -1,0 +1,36 @@
+Classes = {
+    CLASS_NONE          = 0, 
+    CLASS_WARRIOR       = 1, 
+    CLASS_PALADIN       = 2,
+    CLASS_HUNTER        = 3,
+    CLASS_ROGUE         = 4,
+    CLASS_PRIEST        = 5,
+    CLASS_DEATH_KNIGHT  = 6,
+    CLASS_SHAMAN        = 7,
+    CLASS_MAGE          = 8,
+    CLASS_WARLOCK       = 9,
+    CLASS_DRUID         = 11 
+};
+
+ClassNames = {
+    [1] = "Warrior",
+    [2] = "Paladin",
+    [3] = "Hunter",
+    [4] = "Rogue",
+    [5] = "Priest",
+    [6] = "Death Knight",
+    [7] = "Shaman",
+    [8] = "Mage",
+    [9] = "Warlock",
+    [11] = "Druid"
+}
+
+function has_value (tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
