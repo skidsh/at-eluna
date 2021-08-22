@@ -13,16 +13,32 @@ local function LearnAllSkills(player, class)
     end
 end
 
+local function PaladinFix(player)
+    if (player:IsAlliance()) then
+        player:LearnSpell(31801)
+    else
+        player:LearnSpell(53736)
+    end
+end
+
 local function LearnAllSpells(player, class)
-    for i, spell in pairs(ClassSpells[class]) do
+    for i, spell in orderedPairs(ClassSpells[class]) do
+        local allowed = true;
+        if (spell.req_spell and spell.req_spell > 1) then
+            local req_spell = player:HasSpell(spell.req_spell)
+            allowed = req_spell;
+        end
         if (spell.rank and spell.rank > 1) then
             local learnedFirst = player:HasSpell(spell.FirstSpellID)
-            if (learnedFirst and not player:HasSpell(spell.id)) then
+            if (allowed and learnedFirst and not player:HasSpell(spell.id)) then
                 player:LearnSpell(spell.id);   
             end
-        elseif (not player:HasSpell(spell.id)) then
+        elseif (allowed and not player:HasSpell(spell.id)) then
             player:LearnSpell(spell.id);
         end
+    end
+    if (class == 2) then
+        PaladinFix(player)
     end
 end
 

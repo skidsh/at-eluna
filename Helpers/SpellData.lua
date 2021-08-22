@@ -1,3 +1,4 @@
+require("ordered_table")
 DualSpecSpellId = 63624;
 ClassChoices = {
     [1] = {200001, 200002},
@@ -38,7 +39,7 @@ ClassSkillsAdd = { -- Includes a mount and riding skills for every class
     [11] = {198, 199, 200, 227, 1180, 15590}
 }
 
-MountAndRiding = {33388, 33391, 34090, 34091, 60114 }
+MountAndRiding = {33388, 33391, 34090, 34091, 60114, 54197  }
 
 ClassQuestSpells = {
     [1] = {8121, 8616},
@@ -56,23 +57,27 @@ ClassQuestSpells = {
 for class, templates in pairs(ClassChoices) do
     local c = 0;
     for i, v in pairs(templates) do
-        local Q = WorldDBQuery("SELECT SpellID, sr.first_spell_id, sr.`rank` FROM npc_trainer nt left join spell_ranks sr on sr.spell_id = nt.SpellID where ID = "..v.." order by sr.first_spell_id, sr.rank")
+        local query = "SELECT SpellID, sr.first_spell_id, sr.`rank`, sr2.req_spell "
+        .."FROM npc_trainer nt "
+        .."left join spell_ranks sr on sr.spell_id = nt.SpellID "
+        .."left join spell_required sr2 on sr2.spell_id = nt.SpellID "
+        .."where ID = "..v.." order by case when req_spell is not null then 1 else 0 end, first_spell_id, sr.rank";
+        local Q = WorldDBQuery(query)
         if Q then
             repeat
                 local SpellID = Q:GetUInt32(0)
                 local FirstSpellID = Q:GetUInt32(1)
                 local rank = Q:GetUInt32(2)
+                local req_spell = Q:GetUInt32(3)
                 local spell = {};
                 spell.id = SpellID;
                 spell.rank = rank;
                 spell.FirstSpellID = FirstSpellID
+                spell.req_spell = req_spell
                 table.insert( ClassSpells[class], spell)
                 c = c + 1;
             until not Q:NextRow()
         end
     end
     PrintInfo("[Learn All]: Loaded "..c.." "..ClassNames[class].." Auto Learn Spells");
-    table.sort(ClassSpells[class], function (left, right)
-        return left.rank < right.rank
-    end)
 end

@@ -39,8 +39,8 @@ local AllowMixedWeaponTypes = true
 
 local Qualities =
 {
-    [0]  = false, -- AllowPoor
-    [1]  = false, -- AllowCommon
+    [0]  = true, -- AllowPoor
+    [1]  = true, -- AllowCommon
     [2]  = true , -- AllowUncommon
     [3]  = true , -- AllowRare
     [4]  = true , -- AllowEpic
@@ -215,6 +215,7 @@ local function SetFakeEntry(item, entry)
         entryMap[pGUID][iGUID] = entry
         dataMap[iGUID] = pGUID
         CharDBExecute("UPDATE item_instance SET transmog = "..entry.." WHERE guid = "..iGUID.." and owner_guid = "..pGUID)
+        player:GetEquippedItemBySlot(item:GetSlot())
     end
 end
 
@@ -247,9 +248,9 @@ local function SuitableForTransmogrification(player, transmogrified, transmogrif
         return false
     end
 
-    if not player:CanUseItem(transmogrifier) then
-        return false
-    end
+    -- if not player:CanUseItem(transmogrifier) then
+    --     return false
+    -- end
 
     local fierClass = transmogrifier:GetClass()
     local fiedClass = transmogrified:GetClass()
@@ -296,13 +297,13 @@ local function SuitableForTransmogrification(player, transmogrified, transmogrif
     end
 
     if (fierInventorytype ~= fiedInventorytype) then
-        if (fierClass == ITEM_CLASS_WEAPON and not ((IsRangedWeapon(fiedClass, fiedSubClass) or
-            ((fiedInventorytype == INVTYPE_WEAPON or fiedInventorytype == INVTYPE_2HWEAPON) and
-                (fierInventorytype == INVTYPE_WEAPON or fierInventorytype == INVTYPE_2HWEAPON)) or
-            ((fiedInventorytype == INVTYPE_WEAPONMAINHAND or fiedInventorytype == INVTYPE_WEAPONOFFHAND) and
-                (fierInventorytype == INVTYPE_WEAPON or fierInventorytype == INVTYPE_2HWEAPON))))) then
-            return false
-        end
+        -- if (fierClass == ITEM_CLASS_WEAPON and not ((IsRangedWeapon(fiedClass, fiedSubClass) or
+        --     ((fiedInventorytype == INVTYPE_WEAPON or fiedInventorytype == INVTYPE_2HWEAPON) and
+        --         (fierInventorytype == INVTYPE_WEAPON or fierInventorytype == INVTYPE_2HWEAPON)) or
+        --     ((fiedInventorytype == INVTYPE_WEAPONMAINHAND or fiedInventorytype == INVTYPE_WEAPONOFFHAND) and
+        --         (fierInventorytype == INVTYPE_WEAPON or fierInventorytype == INVTYPE_2HWEAPON))))) then
+        --     return false
+        -- end
         if (fierClass == ITEM_CLASS_ARMOR and
             not ((fierInventorytype == INVTYPE_CHEST or fierInventorytype == INVTYPE_ROBE) and
                 (fiedInventorytype == INVTYPE_CHEST or fiedInventorytype == INVTYPE_ROBE))) then
@@ -524,10 +525,6 @@ end
 RegisterPlayerEvent(3, OnLogin)
 RegisterPlayerEvent(4, OnLogout)
 RegisterPlayerEvent(29, OnEquip)
-
--- Test code
---RegisterPlayerEvent(18, function(e,p,m,t,l) if m == "test" then OnGossipHello(e,p,p) end end)
---RegisterPlayerGossipEvent(menu_id, 2, OnGossipSelect)
 
 RegisterCreatureGossipEvent(NPC_Entry, 1, OnGossipHello)
 RegisterCreatureGossipEvent(NPC_Entry, 2, OnGossipSelect)
