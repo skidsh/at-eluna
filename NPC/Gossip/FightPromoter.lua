@@ -33,6 +33,8 @@ function FightPromoter.OnSelect(event, player, unit, sender, intid, code)
             player:GossipComplete()
         elseif (intid == 3) then
             FightPromoter.GenerateMenu(3, player, unit);
+        elseif (intid == 4) then
+            FightPromoter.GenerateMenu(4, player, unit);
         end
     elseif (sender == 1) then
         local locations = FightPromoter.GetLocations(player)
@@ -41,6 +43,8 @@ function FightPromoter.OnSelect(event, player, unit, sender, intid, code)
     elseif (sender == 2) then
         ChangeChar(player, intid);
         player:GossipComplete()
+    elseif (sender == 3 or sender == 4 or sender == 5) then
+        -- Handled in Professions.lua
     end
 end
 
@@ -50,6 +54,7 @@ function FightPromoter.GenerateMenu(id, player, unit)
         player:GossipMenuAddItem(0, "Bind Hearthstone Here", 0, 0)
         player:GossipMenuAddItem(0, "Teleport", 0, 1)
         player:GossipMenuAddItem(0, "Change Character", 0, 3)
+        player:GossipMenuAddItem(0, "Learn Professions", 0, 4)
         player:GossipMenuAddItem(9, "Join Arena", 0, 2)
         player:GossipSendMenu(12684, unit)   
     elseif (id == 2) then
@@ -64,6 +69,10 @@ function FightPromoter.GenerateMenu(id, player, unit)
         player:GossipMenuAddItem(0, "|TInterface/icons/INV_Misc_Gift_03:35|t|r Character Race Change", 2, 4)
         player:GossipMenuAddItem(0, "|TInterface/icons/INV_Misc_Gift_04:35|t|r Change Faction Change", 2, 5)
         player:GossipSendMenu(1, unit)   
+    elseif (id == 4) then
+        player:GossipMenuAddItem(4, "|TInterface\\icons\\Trade_Engraving.png:29|t|cff660000Primary Professions", 3, 1)
+        player:GossipMenuAddItem(4, "|TInterface\\icons\\INV_Inscription_Tradeskill01.png:29|t|cff660000Secondary Professions", 3, 2)  
+        player:GossipSendMenu(100, unit)  
     end
 
 end

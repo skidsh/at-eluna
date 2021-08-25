@@ -3,6 +3,7 @@ require("Packets")
 local ClearAllDebuffs = 34098
 local WaterElemental = 510
 local Gargoyle = 27829
+local MirrorImage = 31216
 local function RemovePetByEntry(player, entry)
     creaturesInRange = player:GetCreaturesInRange( 100 )
     for _, unit in pairs(creaturesInRange) do
@@ -22,6 +23,7 @@ local function ResetPlayer(player)
     player:CastSpell(player, ClearAllDebuffs, true)
     RemovePetByEntry(player, WaterElemental)
     RemovePetByEntry(player, Gargoyle)
+    RemovePetByEntry(player, MirrorImage)
 end
 
 local function DuelReset(event, player1, player2)
