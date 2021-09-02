@@ -58,8 +58,8 @@ function FightPromoter.GenerateMenu(id, player, unit)
         player:GossipMenuAddItem(9, "Join Arena", 0, 2)
         player:GossipSendMenu(12684, unit)   
     elseif (id == 2) then
-        for i=0,12,1 do
-            player:GossipMenuAddItem(4, locations[i][6], 1, i)
+        for i, location in pairs(locations) do
+            player:GossipMenuAddItem(4, location[6], 1, i)
         end
         player:GossipSendMenu(16386, unit)
     elseif (id == 3) then
