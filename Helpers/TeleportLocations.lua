@@ -1,3 +1,4 @@
+require("ordered_table")
 TeleportLocations = {
     Alliance = {
         -- [intid] = {map, x, y, z, orientation}      
