@@ -1,6 +1,7 @@
 require("TeleportLocations")
 require("Packets")
 require("LoginFlags")
+require("ordered_table")
 local FightPromoter = {
     entry = 26760, -- FightPromoter entry.
 }
@@ -58,7 +59,7 @@ function FightPromoter.GenerateMenu(id, player, unit)
         player:GossipMenuAddItem(9, "Join Arena", 0, 2)
         player:GossipSendMenu(12684, unit)   
     elseif (id == 2) then
-        for i, location in pairs(locations) do
+        for i, location in orderedPairs(locations) do
             player:GossipMenuAddItem(4, location[6], 1, i)
         end
         player:GossipSendMenu(16386, unit)
