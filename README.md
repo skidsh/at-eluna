@@ -28,3 +28,7 @@ Arena Tournament Eluna LUA Scripts
 - Player Event for checking the zone and setting the player to sanctuary mode if they are in a zone
 #### LoginFlags.lua
 - Helper for setting a players LoginFlags
+#### Enchants.lua
+- Helper for enchanting
+#### GearNpc.lua
+- Npc Event for Gearing via Multi-Vendor and Enchants
