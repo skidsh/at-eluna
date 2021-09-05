@@ -205,6 +205,7 @@ enchantTable = {
 		{"+225 Armor", 3294, false},
 		{"+22 Agility", 1099, false},
 		{"+20 Arcane Resistance", 1262, false};
+		{"+35 Spell Penetration", 3243, false};		
 	},
 
 	[15] = {
