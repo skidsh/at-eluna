@@ -29,7 +29,6 @@ function GearNpc.OnSelect(event, player, unit, sender, intid, code)
 end
 
 function GearNpc.GenerateMenu(id, player, unit)
-    local locations = GearNpc.GetLocations(player)
     if (id == 1) then
         -- Main Menu
         player:GossipMenuAddItem(1, "Buy Gear", 0, 0)
