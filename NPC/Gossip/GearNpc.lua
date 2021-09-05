@@ -20,27 +20,32 @@ function GearNpc.OnSelect(event, player, unit, sender, intid, code)
     elseif (sender == 1) then
         -- Selected Slot
         for i, enchant in orderedPairs(enchantTable[intid]) do
-            player:GossipMenuAddItem(5, enchant[1], 2, enchant[2])
+            player:GossipMenuAddItem(4, enchant[1], 2, enchant[2])
         end 
+        player:GossipSendMenu(1, unit)
     elseif (sender == 2) then
         -- Enchant Piece
-        EnchantSlot(player, findSlotOfEnchant(intid), findRowOfEnchant(intid))
+        if (EnchantSlot(player, findSlotOfEnchant(intid), findRowOfEnchant(intid))) then
+            player:SendAreaTriggerMessage("Enchanted Item Successfully")
+        end
+        player:GossipComplete()
     end
 end
 
 function GearNpc.GenerateMenu(id, player, unit)
     if (id == 1) then
         -- Main Menu
-        player:GossipMenuAddItem(1, "Buy Gear", 0, 0)
+        player:GossipMenuAddItem(0, "Buy Gear (Not Available Yet)", 0, 0)
         player:GossipMenuAddItem(0, "Enchant Gear", 0, 1)
         player:GossipSendMenu(1, unit)
     elseif (id == 2) then
         -- Buy Gear Menu
         -- Some menu options that lead to these player:SendListInventory(player, 54)
+        GearNpc.GenerateMenu(1, player, unit)
     elseif (id == 3) then
         -- Enchant Gear Menu
         for i, slot in orderedPairs(enchantMenu) do
-            player:GossipMenuAddItem(4, slot[1], 1, slot[2])
+            player:GossipMenuAddItem(0, slot[1], 1, slot[2])
         end
         player:GossipSendMenu(1, unit)
     end
