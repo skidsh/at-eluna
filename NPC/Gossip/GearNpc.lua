@@ -21,12 +21,25 @@ function GearNpc.OnSelect(event, player, unit, sender, intid, code)
             GearNpc.GenerateMenu(3, player, unit);
         end
     elseif (sender == 1) then
-        -- Show possible enchants for slot
-        for i, enchant in orderedPairs(enchantTable[intid]) do
-            player:GossipMenuAddItem(4, enchant[1], 2, enchant[2])
-        end 
-        player:GossipMenuAddItem(7, "Back", 0, 2)
-        player:GossipSendMenu(1, unit)
+        if (intid == 23) then
+            -- Show possible weapon slots
+            for i, enchant in orderedPairs(weaponMenu) do
+                player:GossipMenuAddItem(0, enchant[1], 1, enchant[2])
+            end 
+            player:GossipMenuAddItem(7, "Back", 0, 2)
+            player:GossipSendMenu(1, unit)
+        else            
+            -- Show possible enchants for slot
+            for i, enchant in orderedPairs(enchantTable[intid]) do
+                player:GossipMenuAddItem(4, enchant[1], 2, enchant[2])
+            end
+            if (intid == 15 or intid == 16 or intid == 17 or intid == 151 or intid == 161) then
+                player:GossipMenuAddItem(7, "Back", 1, 23)
+            else                
+                player:GossipMenuAddItem(7, "Back", 0, 2)
+            end
+            player:GossipSendMenu(1, unit)
+        end
     elseif (sender == 2) then
         -- Enchant Piece
         if (EnchantSlot(player, findSlotOfEnchant(intid), findRowOfEnchant(intid))) then

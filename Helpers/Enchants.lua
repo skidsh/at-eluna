@@ -48,6 +48,16 @@ function EnchantSlot(player, slot, enchantRow)
             item:ClearEnchantment(0,0)
             item:SetEnchantment(enh, 0, 0)
             player:CastSpell(player, 36937)
+		elseif slot == 17 then
+			local rangedType = item:GetSubClass();
+			if rangedType == 2 or rangedType == 3 then
+				item:ClearEnchantment(0,0)
+				item:SetEnchantment(enchantRow[2], 0, 0)
+				player:CastSpell(player, 36937)
+			else
+				player:SendAreaTriggerMessage("Bow or Gun not equipped")
+				return false;
+			end
         else
             local IType = item:GetSubClass()
             if(IType==0) then
@@ -105,13 +115,18 @@ enchantMenu = {
     {"Bracers", 8},
     {"Gloves", 9},
     {"Cloak", 14},
+	{"Weapons", 23},
+    {"Main Ring",10};
+    {"Second Ring",11};
+};
+
+weaponMenu = {	
     {"Main-Hand Weapons", 15},
     {"Two-Handed Weapons", 151},
     {"Off-Hand Weapons", 16},
     {"Shields", 161};
-    {"Main Ring",10};
-    {"Second Ring",11};
-};
+	{"Bow / Gun", 17};
+}
 
 enchantTable = {	
 	[0] = { -- Headpiece
@@ -155,6 +170,7 @@ enchantTable = {
 		--{"Enchant Boots - Nitro boosts",3606,false};
 		{"+32 Attack Power", 1597, false},
 		{"+15 Stamina and Minor Speed Increase", 3232, false},
+		{"+6 Agility and Minor Speed Increase", 2939, false},
 		{"+16 Agility", 983, false},
 		{"+18 Spirit", 1147, false},
 		{"+7 Health and Mana every 5 sec", 3244, false},
@@ -263,6 +279,12 @@ enchantTable = {
 		{"Major Stamina", 1071, true},
 		{"Tough Shield", 2653, true};
 		{"Titanium Plating",3849,true};
+    },
+	[17] = {		
+		-- Ranged
+		{"+15 Damage", 3843, false},
+		{"+40 Ranged Critical Strike", 3608, false},
+		{"+40 Ranged Haste Rating", 3607, false};
     },
 	[10] = {
 		-- Rings
