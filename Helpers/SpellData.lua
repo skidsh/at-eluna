@@ -61,7 +61,8 @@ for class, templates in pairs(ClassChoices) do
         .."FROM npc_trainer nt "
         .."left join spell_ranks sr on sr.spell_id = nt.SpellID "
         .."left join spell_required sr2 on sr2.spell_id = nt.SpellID "
-        .."where ID = "..v.." order by case when req_spell is not null then 1 else 0 end, first_spell_id, sr.rank";
+        .."where ID = "..v
+        .." order by case when req_spell is not null or first_spell_id is not null then 1 else 0 end, first_spell_id, sr.rank";
         local Q = WorldDBQuery(query)
         if Q then
             repeat
