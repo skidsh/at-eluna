@@ -13,6 +13,11 @@ local function LoginPaladin(event, player)
         if (player:HasSpell(25899) and not player:HasSpell(20911)) then
             player:RemoveSpell(25899)
         end
+    -- Give mages dagger skill when they login
+    elseif (player:GetClass() == 8) then
+        if (not player:HasSkill(173)) then
+            player:SetSkill(173, 400, 400, 400);
+        end
     end
 end
 
