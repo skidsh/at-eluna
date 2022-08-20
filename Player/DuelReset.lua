@@ -13,6 +13,7 @@ local function RemovePetByEntry(player, entry)
     end
 end
 local function ResetPlayer(player)
+    print('wtf')
     player:ResetAllCooldowns();
 
     player:SetHealth(player:GetMaxHealth())

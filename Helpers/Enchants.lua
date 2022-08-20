@@ -7,7 +7,7 @@ require("ordered_table")
 function EnchantSlot(player, slot, enchantRow)
     if (slot == -1 or enchantRow == {}) then
         return
-    end    
+    end
     local dslot = slot;
     if(slot == 161 or slot == 151) then
         dslot = math.floor(slot/10)
@@ -89,8 +89,8 @@ function findRowOfEnchant(enchant)
             if (enchantRow[2] == enchant) then
                 return enchantRow;
             end
-        end  
-    end     
+        end
+    end
     return {};
 end
 
@@ -100,8 +100,8 @@ function findSlotOfEnchant(enchant)
             if (enchantRow[2] == enchant) then
                 return i;
             end
-        end  
-    end     
+        end
+    end
     return -1;
 end
 
@@ -120,7 +120,7 @@ enchantMenu = {
     {"Second Ring",11};
 };
 
-weaponMenu = {	
+weaponMenu = {
     {"Main-Hand Weapons", 15},
     {"Two-Handed Weapons", 151},
     {"Off-Hand Weapons", 16},
@@ -128,7 +128,7 @@ weaponMenu = {
 	{"Bow / Gun", 17};
 }
 
-enchantTable = {	
+enchantTable = {
 	[0] = { -- Headpiece
 		--{"Mind Amplification dish",3878,false};
 		{"+30 Spell Power and +20 Critical strike rating", 3820, false},
@@ -164,7 +164,7 @@ enchantTable = {
 		{"+75 Attack Power and +22 Critical Strike Rating", 3823, false},
 		{"+50 Spell Power and +20 Spirit", 3719, false},
 		{"+50 Spell Power and +30 Stamina", 3721, false};
-	},	
+	},
 
 	[7] = { -- Boots
 		--{"Enchant Boots - Nitro boosts",3606,false};
@@ -221,7 +221,7 @@ enchantTable = {
 		{"+225 Armor", 3294, false},
 		{"+22 Agility", 1099, false},
 		{"+20 Arcane Resistance", 1262, false};
-		{"+35 Spell Penetration", 3243, false};		
+		{"+35 Spell Penetration", 3243, false};
 	},
 
 	[15] = {
@@ -244,14 +244,14 @@ enchantTable = {
 		{"Deathfrost",3273, false},
 		{"Titanium Weapon Chain",3731, false},
 	},
-    [151] = {		
+    [151] = {
 		-- Two-Handed
 		{"Massacre", 3827, true},
 		{"Scourgebane", 3247, true},
 		{"Giant Slayer", 3251, true},
 		{"Greater Spellpower", 3854, true};
     },
-	
+
 	[16] = {
 		-- Offhand
 		{"Titan Guard", 3851, false},
@@ -270,7 +270,7 @@ enchantTable = {
 		{"Deathfrost",3273, false},
 		{"Titanium Weapon Chain",3731, false},
 	},
-    [161] = {	
+    [161] = {
 		-- Shields
 		{"Defense", 1952, true},
 		{"Greater Intellect", 1128, true},
@@ -280,7 +280,7 @@ enchantTable = {
 		{"Tough Shield", 2653, true};
 		{"Titanium Plating",3849,true};
     },
-	[17] = {		
+	[17] = {
 		-- Ranged
 		{"+15 Damage", 3843, false},
 		{"+40 Ranged Critical Strike", 3608, false},
@@ -299,6 +299,6 @@ enchantTable = {
 		{"Spell power (Enchanting 400)",3840,false};
 	},
 	[5] = {
-		{"Eternal Belt Buckle - Socket",3729,false};		
+		{"Eternal Belt Buckle - Socket",3729,false};
 	}
 };

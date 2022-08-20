@@ -200,6 +200,11 @@ local function DeleteFakeEntry(item)
     end
     item:GetOwner():UpdateUInt32Value(PLAYER_VISIBLE_ITEM_1_ENTRYID + (item:GetSlot() * ITEM_SLOT_MULTIPLIER), item:GetEntry())
     DeleteFakeFromDB(item:GetGUIDLow())
+    local player = item:GetOwner()
+    if (player) then
+        player:SetScale(1.01)
+        player:SetScale(1)
+    end
     return true
 end
 
@@ -215,7 +220,9 @@ local function SetFakeEntry(item, entry)
         entryMap[pGUID][iGUID] = entry
         dataMap[iGUID] = pGUID
         CharDBExecute("UPDATE item_instance SET transmog = "..entry.." WHERE guid = "..iGUID.." and owner_guid = "..pGUID)
-        player:GetEquippedItemBySlot(item:GetSlot())
+
+        player:SetScale(1.01)
+        player:SetScale(1)
     end
 end
 
@@ -318,24 +325,44 @@ local menu_id = math.random(1000)
 
 local function OnGossipHello(event, player, creature)
     player:GossipClearMenu()
-    for slot = EQUIPMENT_SLOT_START, EQUIPMENT_SLOT_END-1 do
-        local transmogrified = player:GetItemByPos(INVENTORY_SLOT_BAG_0, slot)
-        if transmogrified then
-            if Qualities[transmogrified:GetQuality()] then
-                local slotName = GetSlotName(slot, player:GetDbcLocale())
-                if slotName then
-                    player:GossipMenuAddItem(3, slotName, EQUIPMENT_SLOT_END, slot)
-                end
-            end
-        end
-    end
-    player:GossipMenuAddItem(4, LocText(2, player), EQUIPMENT_SLOT_END+2, 0, false, LocText(3, player), 0)
-    player:GossipMenuAddItem(7, LocText(1, player), EQUIPMENT_SLOT_END+1, 0)
-    player:GossipSendMenu(100, creature, menu_id)
+    player:GossipMenuAddItem(0, "Buy Transmog Items", 934, 934)
+    player:GossipMenuAddItem(0, "Apply Transmog To My Gear", 933, 0)
+  --  player:GossipMenuAddItem(7, LocText(1, player), EQUIPMENT_SLOT_END+1, 0)
+    player:GossipSendMenu(333606, creature)
 end
 
 local _items = {}
 local function OnGossipSelect(event, player, creature, slotid, uiAction)
+    if (slotid == 934) then
+        if (uiAction == 934) then
+            player:GossipClearMenu()
+            for slot = EQUIPMENT_SLOT_START, EQUIPMENT_SLOT_END-1 do
+                local slotName = GetSlotName(slot, player:GetDbcLocale())
+                if slotName then
+                    player:GossipMenuAddItem(1, slotName, 934, slot)
+                end
+            end
+            player:GossipSendMenu(333606, creature)
+        else
+            player:SendListInventory(creature, 444596)
+        end
+        return;
+    elseif (slotid == 933) then
+        for slot = EQUIPMENT_SLOT_START, EQUIPMENT_SLOT_END-1 do
+            local transmogrified = player:GetItemByPos(INVENTORY_SLOT_BAG_0, slot)
+            if transmogrified then
+                if Qualities[transmogrified:GetQuality()] then
+                    local slotName = GetSlotName(slot, player:GetDbcLocale())
+                    if slotName then
+                        player:GossipMenuAddItem(3, slotName, EQUIPMENT_SLOT_END, slot)
+                    end
+                end
+            end
+        end
+        player:GossipMenuAddItem(4, LocText(2, player), EQUIPMENT_SLOT_END+2, 0, false, LocText(3, player), 0)
+        player:GossipSendMenu(333606, creature)
+        return;
+    end
     if slotid == EQUIPMENT_SLOT_END then -- Show items you can use
         local transmogrified = player:GetItemByPos(INVENTORY_SLOT_BAG_0, uiAction)
         if transmogrified then
@@ -394,12 +421,12 @@ local function OnGossipSelect(event, player, creature, slotid, uiAction)
 
             player:GossipMenuAddItem(4, LocText(7, player), EQUIPMENT_SLOT_END+3, uiAction, false, LocText(5, player):format(GetSlotName(uiAction, player:GetDbcLocale())))
             player:GossipMenuAddItem(7, LocText(6, player), EQUIPMENT_SLOT_END+1, 0)
-            player:GossipSendMenu(100, creature, menu_id)
+            player:GossipSendMenu(333606, creature)
         else
             OnGossipHello(event, player, creature)
         end
     elseif slotid == EQUIPMENT_SLOT_END+1 then -- Back
-        OnGossipHello(event, player, creature)
+        OnGossipSelect(event, player, creature, 933, 933)
     elseif slotid == EQUIPMENT_SLOT_END+2 then -- Remove Transmogrifications
         local removed = false
         for slot = EQUIPMENT_SLOT_START, EQUIPMENT_SLOT_END-1 do
